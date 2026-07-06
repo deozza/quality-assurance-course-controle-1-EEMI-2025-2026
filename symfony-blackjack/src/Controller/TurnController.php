@@ -8,12 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
 class TurnController extends AbstractController
 {
     private TurnService $turnService;
     private GameService $gameService;
-
     public function __construct(TurnService $turnService, GameService $gameService)
     {
         $this->turnService = $turnService;

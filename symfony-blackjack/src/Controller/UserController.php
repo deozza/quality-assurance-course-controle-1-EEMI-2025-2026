@@ -7,18 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
 class UserController extends AbstractController
 {
-
     private UserService $userService;
-
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
     }
 
-   
     #[Route('/user', name: 'get_list_of_users', methods: ['GET'])]
     public function getListOfUsers(Request $request): Response
     {
@@ -72,8 +68,6 @@ class UserController extends AbstractController
         return $this->json($userData, 200, [], ['groups' => 'user']);
     }
 
-
-
     #[Route('/user/profile', name: 'update_current_user', methods: ['PATCH'])]
     public function updateCurrentUser(Request $request): Response
     {
@@ -122,8 +116,6 @@ class UserController extends AbstractController
 
         return $this->json($user, 200, [], ['groups' => 'user']);
     }
-
-
 
     #[Route('/user/{id}', name: 'update_user_by_uuid', methods: ['PATCH'])]
     public function updateUserByUuid(string $id, Request $request): Response

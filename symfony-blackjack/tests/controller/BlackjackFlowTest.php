@@ -3,7 +3,6 @@
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
 class BlackjackFlowTest extends WebTestCase
 {
     public function testInvalidJsonOnWage()
@@ -14,6 +13,7 @@ class BlackjackFlowTest extends WebTestCase
             in_array($client->getResponse()->getStatusCode(), [400, 401])
         );
     }
+
 
     public function testGameLifecycleUnauthorized()
     {
