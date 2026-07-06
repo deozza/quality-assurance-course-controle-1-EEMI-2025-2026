@@ -43,21 +43,21 @@ git clone https://github.com/<your-username>/blackjack
 
 cd blackjack
 
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 #### Installer la partie symfony
 
 ```bash
-docker-compose exec -u 1000 symfony-blackjack composer install
-docker-compose exec -u 1000 symfony-blackjack php bin/console lexik:jwt:generate-keypair
-docker-compose exec -u 1000 symfony-blackjack composer reset-db
+docker compose exec -u 1000 symfony-blackjack composer install
+docker compose exec -u 1000 symfony-blackjack php bin/console lexik:jwt:generate-keypair
+docker compose exec -u 1000 symfony-blackjack composer reset-db
 ```
 
 #### Lancer le serveur de développement symfony
 
 ```bash
-docker-compose exec -u 1000 symfony-blackjack symfony serve
+docker compose exec -u 1000 symfony-blackjack php -S 0.0.0.0:8000 -t ./public
 ```
 
 L'application sera disponible à l'url `http://127.0.0.1:8888` (ou un autre port si vous avez changé la configuration du service dans le `docker-compose.yml`).
@@ -70,13 +70,13 @@ Un compte utilisateur est déjà créé :
 #### Installer la partie Sveltekit
 
 ```bash
-docker-compose exec -u 1000 svelte-blackjack npm install
+docker compose exec -u 1000 svelte-blackjack npm install
 ```
 
 #### Lancer le serveur de développement sveltekit
 
 ```bash
-docker-compose exec -u 1000 svelte-blackjack npm run dev -- --host
+docker compose exec -u 1000 svelte-blackjack npm run dev -- --host
 ```
 
 L'application sera disponible à l'url `http://127.0.0.1:5173` (ou un autre port si vous avez changé la configuration du service dans le `docker-compose.yml`).
