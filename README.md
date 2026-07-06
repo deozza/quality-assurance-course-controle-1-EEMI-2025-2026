@@ -39,9 +39,9 @@ Ceci est un repository pour s'exercer à l'écriture de tests pour une applicati
 Pour initialiser le projet, veuillez faire un fork du repository sur votre compte. Puis, lancer les commandes suivantes :
 
 ```bash
-git clone https://github.com/<your-username>/blackjack
+git clone https://github.com/<your-username>/quality-assurance-course-controle-1-<school-name>-<year>
 
-cd blackjack
+cd quality-assurance-course-controle-1-<school-name>-<year>
 
 docker compose up -d --build
 ```
@@ -61,6 +61,8 @@ docker compose exec -u 1000 symfony-blackjack php -S 0.0.0.0:8000 -t ./public
 ```
 
 L'application sera disponible à l'url `http://127.0.0.1:8888` (ou un autre port si vous avez changé la configuration du service dans le `docker-compose.yml`).
+
+Si vous vous rendez sur cette url dans le navigateur, la page d'accueil de Symfony devrait s'afficher.
 
 Un compte utilisateur est déjà créé : 
  * username : admin
