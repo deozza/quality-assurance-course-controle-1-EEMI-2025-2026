@@ -20,57 +20,66 @@ class GameController extends AbstractController
     #[Route('/game', name: 'get_list_of_games', methods: ['GET'])]
     public function getListOfGames(Request $request): Response
     {
-        $userId = null;
-        if(in_array('ROLE_ADMIN', $this->getUser()->getRoles()) === false){
-            $userId = $this->getUser()->getId();
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json('Unauthorized', 401);
         }
-
+        $userId = null;
+        if (!in_array('ROLE_ADMIN', $user->getRoles())) {
+            $userId = $user->getId();
+        }
         $limit = $request->query->get('limit', 12);
         $page = $request->query->get('page', 0);
-
         list($games, $err) = $this->gameService->getPaginatedGameList($limit, $page, $userId);
-        if($err instanceof \Error) {
-            return $this->json($err->getMessage(), $err->getCode());
+        if ($err instanceof \Exception) {
+            return $this->json($err->getMessage(), $err->getCode() ?: 400);
         }
-
         return $this->json($games, 200, [], ['groups' => 'game']);
     }
 
     #[Route('/game', name: 'create_game', methods: ['POST'])]
     public function createGame(): Response
     {
-        list($game, $err) = $this->gameService->createGame($this->getUser());
-        if($err instanceof \Error) {
-            return $this->json($err->getMessage(), $err->getCode());
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json('Unauthorized', 401);
         }
-
+        list($game, $err) = $this->gameService->createGame($user);
+        if ($err instanceof \Exception) {
+            return $this->json($err->getMessage(), $err->getCode() ?: 400);
+        }
         list($game, $err) = $this->gameService->initializeGame($game);
-        if($err instanceof \Error) {
-            return $this->json($err->getMessage(), $err->getCode());
+        if ($err instanceof \Exception) {
+            return $this->json($err->getMessage(), $err->getCode() ?: 400);
         }
-
         return $this->json($game, 201, [], ['groups' => 'game']);
     }
 
     #[Route('/game/{id}', name: 'get_game', methods: ['GET'])]
     public function getGame(string $id): Response
     {
-        list($game, $err) = $this->gameService->getGame($id, $this->getUser());
-        if($err instanceof \Error) {
-            return $this->json($err->getMessage(), $err->getCode());
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json('Unauthorized', 401);
         }
-
+        list($game, $err) = $this->gameService->getGame($id, $user);
+        if ($err instanceof \Exception) {
+            return $this->json($err->getMessage(), $err->getCode() ?: 404);
+        }
         return $this->json($game, 200, [], ['groups' => 'game']);
     }
 
     #[Route('/game/{id}', name: 'delete_game', methods: ['DELETE'])]
     public function deleteGame(string $id): Response
     {
-        list($_, $err) = $this->gameService->deleteGame($id, $this->getUser());
-        if($err instanceof \Error) {
-            return $this->json($err->getMessage(), $err->getCode());
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json('Unauthorized', 401);
         }
-
+        list($_, $err) = $this->gameService->deleteGame($id, $user);
+        if ($err instanceof \Exception) {
+            return $this->json($err->getMessage(), $err->getCode() ?: 400);
+        }
         return $this->json(null, 204);
     }
 }
